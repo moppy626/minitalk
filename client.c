@@ -37,23 +37,7 @@ int main(int argc, char const *argv[])
 {
 	(void)argc;
 	(void)argv;
-	ssize_t	idx;
-	int test[8];
-
-	idx = 0;
-	printf("数字型へ");
-	printf("%d", argv[1][idx]);
-	to_binary(argv[1][idx], test);
-
-	printf("\n");
-	printf("変換後");
-	idx = 0;
-	while (idx < 8)
-	{
-		printf("%d", test[idx]);
-		idx++;
-	}
-	printf("\n");
+	kill(123, SIGUSR1);
 	
 	return 0;
 }

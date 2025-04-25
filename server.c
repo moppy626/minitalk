@@ -26,19 +26,23 @@ char to_char(int *ary)
 	{
 		if (*ary)
 			ret += class;
-		printf("ary:%d, ret:%d\n", *ary, ret);
 		class /= 2;
 		ary++;
 	}
 	return (ret);
 }
+
+void	signal_handler(int sig)
+{
+	printf("catch: %d\n", sig);
+}
 int main(int argc, char const *argv[])
 {
 	(void)argc;
 	(void)argv;
-
-	int test[8] = {0, 1, 1, 0, 0, 0, 0, 1};
-	char ret = to_char(test);
-	printf("%c\n", ret);
+	signal(SIGUSR1, signal_handler);
+	while (1)
+		pause();
+	
 	return 0;
 }
