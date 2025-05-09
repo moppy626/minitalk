@@ -31,18 +31,37 @@ char to_char(int *ary)
 	}
 	return (ret);
 }
-
-void	signal_handler(int sig)
+/*
+	ハンドラ
+*/
+void	handler(int sig)
 {
-	printf("catch: %d\n", sig);
+	static int ary[8];
+	static int idx = 0;
+	static int count = 0;
+
+	// printf("signal: %d\n", sig);
+	if (sig == SIGUSR1)
+		ary[idx] = 1;
+	else if (sig == SIGUSR2)
+		ary[idx] = 0;
+	idx++;
+	if (idx >= 8)
+	{
+		ft_printf("%c", to_char(ary));
+		idx = 0;
+		count++;
+	}
 }
+
 int main(int argc, char const *argv[])
 {
 	(void)argc;
 	(void)argv;
-	signal(SIGUSR1, signal_handler);
-	while (1)
+	signal(SIGUSR1, handler);
+	signal(SIGUSR2, handler);
+	ft_printf("pid:%d\n", getpid());
+	while(1)
 		pause();
-	
 	return 0;
 }
