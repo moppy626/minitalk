@@ -6,3 +6,9 @@
 
 #include <stdio.h>
 
+typedef struct s_data{
+	int		p_id;
+	int		ary[8];
+	ssize_t idx;
+	struct s_data	*next;
+} t_data;

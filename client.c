@@ -47,7 +47,7 @@ void	send_binary(int p_id, int *ary)
 		else
 			kill(p_id, SIGUSR2);
 		idx++;
-		usleep(100);
+		usleep(150);
 	}
 }
 
@@ -64,7 +64,7 @@ int main(int argc, char const **argv)
 	{
 		// printf("argv[2][idx]:%c\n", argv[2][idx]);
 		to_binary(argv[2][idx], ary);
-		send_binary(p_id, ary);
+		send_binary(p_id, ary); 
 		idx++;
 	}
 	return 0;

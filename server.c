@@ -32,25 +32,54 @@ char to_char(int *ary)
 	return (ret);
 }
 /*
+	PIDから対応するデータを取得する
+*/
+t_data	*get_from_pid(t_data **data)
+{
+	if (!*data)
+	{
+		*data = malloc(sizeof(t_data));
+		(*data)->idx = 0;
+		(*data)->next = NULL;
+		return (*data);
+	}
+	return (*data);
+}
+
+/*
+	保持していたデータをfreeする
+*/
+void	free_data(t_data *data)
+{
+	free(data);
+	data = NULL;
+	exit(0);
+}
+
+/*
 	ハンドラ
 */
-void	handler(int sig)
+void	handler(int sig, siginfo_t *info, void *ucontext)
 {
-	static int ary[8];
-	static int idx = 0;
-	static int count = 0;
+	(void)ucontext;
+	static t_data *data;
+	t_data	*tmp;
 
+	if (sig == SIGINT)
+		free_data(data);
+
+	tmp = get_from_pid(&data);
 	// printf("signal: %d\n", sig);
 	if (sig == SIGUSR1)
-		ary[idx] = 1;
+		tmp->ary[tmp->idx] = 1;
 	else if (sig == SIGUSR2)
-		ary[idx] = 0;
-	idx++;
-	if (idx >= 8)
+		tmp->ary[tmp->idx] = 0;
+	tmp->idx++;
+	if (tmp->idx >= 8)
 	{
-		ft_printf("%c", to_char(ary));
-		idx = 0;
-		count++;
+		printf("info->si_pid:%d\n",info->si_pid);
+		ft_printf("%c", to_char(tmp->ary));
+		tmp->idx = 0;
 	}
 }
 
@@ -58,8 +87,15 @@ int main(int argc, char const *argv[])
 {
 	(void)argc;
 	(void)argv;
-	signal(SIGUSR1, handler);
-	signal(SIGUSR2, handler);
+	struct sigaction sa;
+
+	sa.sa_sigaction = handler;
+	sa.sa_flags = SA_SIGINFO;
+	sigemptyset(&sa.sa_mask);
+	if (sigaction(SIGUSR1, &sa, NULL) < 0)
+		return 1;
+	sigaction(SIGUSR2, &sa, NULL);
+	sigaction(SIGINT, &sa, NULL);
 	ft_printf("pid:%d\n", getpid());
 	while(1)
 		pause();
