@@ -6,6 +6,8 @@
 
 #include <stdio.h>
 
+# define EOT	0x04
+
 typedef struct s_data{
 	int		p_id;
 	int		ary[8];

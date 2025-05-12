@@ -42,13 +42,15 @@ void	send_binary(int p_id, int *ary)
 	idx = 0;
 	while (idx < 8)
 	{
+		printf("%d",ary[idx]);
 		if (ary[idx])
 			kill(p_id, SIGUSR1);
 		else
 			kill(p_id, SIGUSR2);
 		idx++;
-		usleep(150);
+		usleep(1000);
 	}
+	printf("\n");
 }
 
 int main(int argc, char const **argv)
@@ -67,6 +69,8 @@ int main(int argc, char const **argv)
 		send_binary(p_id, ary); 
 		idx++;
 	}
+	to_binary(EOT, ary);
+	send_binary(p_id, ary); 
 	return 0;
 }
 

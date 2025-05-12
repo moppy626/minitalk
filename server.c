@@ -34,11 +34,12 @@ char to_char(int *ary)
 /*
 	PIDから対応するデータを取得する
 */
-t_data	*get_from_pid(t_data **data)
+t_data	*get_from_pid(t_data **data, int p_id)
 {
 	if (!*data)
 	{
 		*data = malloc(sizeof(t_data));
+		(*data)->p_id = p_id;
 		(*data)->idx = 0;
 		(*data)->next = NULL;
 		return (*data);
@@ -68,17 +69,27 @@ void	handler(int sig, siginfo_t *info, void *ucontext)
 	if (sig == SIGINT)
 		free_data(data);
 
-	tmp = get_from_pid(&data);
+	tmp = get_from_pid(&data, info->si_pid);
 	// printf("signal: %d\n", sig);
 	if (sig == SIGUSR1)
+	{
 		tmp->ary[tmp->idx] = 1;
+		// printf("1");
+	}
 	else if (sig == SIGUSR2)
+	{
 		tmp->ary[tmp->idx] = 0;
+		// printf("0");
+	}
 	tmp->idx++;
 	if (tmp->idx >= 8)
 	{
-		printf("info->si_pid:%d\n",info->si_pid);
-		ft_printf("%c", to_char(tmp->ary));
+		// printf("info->si_pid:%d\n",info->si_pid);
+		char c = to_char(tmp->ary);
+		if (c == EOT)
+			ft_printf("\n");
+		else
+			ft_printf("%c", c);
 		tmp->idx = 0;
 	}
 }

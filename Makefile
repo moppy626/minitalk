@@ -24,7 +24,7 @@ SRC_PRINTF := $(addprefix ft_printf/, $(SRC_PRINTF))
 OBJS_CLIENT = $(SRC_PRINTF:.c=.o) $(SRC_LIBFT:.c=.o) $(SRC_CLIENT:.c=.o)
 OBJS_SERVER = $(SRC_PRINTF:.c=.o) $(SRC_LIBFT:.c=.o) $(SRC_SERVER:.c=.o)
 
-all: $(NAME_CLIENT) $(NAME_SERVER)
+all: $(NAME_CLIENT) $(NAME_SERVER) test
 
 $(NAME_CLIENT):$(OBJS_CLIENT)
 	@$(CC) $(OBJS_CLIENT) -o $(NAME_CLIENT)
@@ -39,3 +39,6 @@ fclean:
 	rm -f $(NAME_CLIENT) $(OBJS_CLIENT) $(NAME_SERVER) $(OBJS_SERVER)
 
 re: fclean all
+
+test:
+	sudo valgrind ./server
