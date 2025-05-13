@@ -31,30 +31,76 @@ char to_char(int *ary)
 	}
 	return (ret);
 }
+
+/*
+	新しいPID構造体を生成する
+*/
+t_data	*new_data(int p_id)
+{
+	t_data	*new;
+
+	new = malloc(sizeof(t_data));
+	new->p_id = p_id;
+	new->idx = 0;
+	new->next = NULL;
+	new->str = NULL;
+	new->len = 0;
+	for (int i = 0; i < 8; i++)
+		new->ary[i] = 0;
+	return (new);
+}
+
 /*
 	PIDから対応するデータを取得する
 */
 t_data	*get_from_pid(t_data **data, int p_id)
 {
-	if (!*data)
+	t_data	*tmp;
+
+	tmp = *data;
+	while (tmp)
 	{
-		*data = malloc(sizeof(t_data));
-		(*data)->p_id = p_id;
-		(*data)->idx = 0;
-		(*data)->next = NULL;
-		return (*data);
+		if (tmp->p_id == p_id)
+			return (tmp);
+		tmp = tmp->next;
 	}
+	tmp = new_data(p_id);
+	tmp->next = *data;
+	*data = tmp;
 	return (*data);
 }
 
-/*
-	保持していたデータをfreeする
+/*保持していたデータをfreeする
+	
 */
-void	free_data(t_data *data)
+void	free_data(t_data **data)
 {
-	free(data);
-	data = NULL;
+	t_data	*tmp;
+
+	tmp = *data;
+	while (tmp)
+	{
+		*data = (*data)->next;
+		free(tmp->str);
+		free(tmp);
+		tmp = *data;
+	}
 	exit(0);
+}
+void	set_to_str(t_data	*tmp)
+{
+	char	c[2];
+
+	c[0] = to_char(tmp->ary);
+	c[1] = '\0';
+	if (c[0] == EOT)
+	{
+		ft_printf("%s\n", tmp->str);
+		return ;
+	}
+	tmp->len++;
+	tmp->str = ft_strjoin(tmp->str, c);
+	tmp->idx = 0;
 }
 
 /*
@@ -67,37 +113,19 @@ void	handler(int sig, siginfo_t *info, void *ucontext)
 	t_data	*tmp;
 
 	if (sig == SIGINT)
-		free_data(data);
-
+		free_data(&data);
 	tmp = get_from_pid(&data, info->si_pid);
-	// printf("signal: %d\n", sig);
 	if (sig == SIGUSR1)
-	{
 		tmp->ary[tmp->idx] = 1;
-		// printf("1");
-	}
 	else if (sig == SIGUSR2)
-	{
 		tmp->ary[tmp->idx] = 0;
-		// printf("0");
-	}
 	tmp->idx++;
 	if (tmp->idx >= 8)
-	{
-		// printf("info->si_pid:%d\n",info->si_pid);
-		char c = to_char(tmp->ary);
-		if (c == EOT)
-			ft_printf("\n");
-		else
-			ft_printf("%c", c);
-		tmp->idx = 0;
-	}
+		set_to_str(tmp);
 }
 
-int main(int argc, char const *argv[])
+int main(void)
 {
-	(void)argc;
-	(void)argv;
 	struct sigaction sa;
 
 	sa.sa_sigaction = handler;
@@ -105,8 +133,10 @@ int main(int argc, char const *argv[])
 	sigemptyset(&sa.sa_mask);
 	if (sigaction(SIGUSR1, &sa, NULL) < 0)
 		return 1;
-	sigaction(SIGUSR2, &sa, NULL);
-	sigaction(SIGINT, &sa, NULL);
+	if (sigaction(SIGUSR2, &sa, NULL) < 0)
+		return 1;
+	if (sigaction(SIGINT, &sa, NULL) < 0)
+		return 1;
 	ft_printf("pid:%d\n", getpid());
 	while(1)
 		pause();

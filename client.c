@@ -48,7 +48,7 @@ void	send_binary(int p_id, int *ary)
 		else
 			kill(p_id, SIGUSR2);
 		idx++;
-		usleep(1000);
+		usleep(WAIT_TIME);
 	}
 	printf("\n");
 }

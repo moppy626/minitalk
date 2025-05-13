@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmachida <mmachida@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 18:28:15 by mmachida          #+#    #+#             */
-/*   Updated: 2024/08/14 17:30:26 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/05/13 23:23:28 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@
 # include <unistd.h>
 # include <stdint.h>
 # include <stdarg.h>
+# include "../libft/libft.h"
 
-size_t			ft_strlen(const char *s);
+
 void			*ft_memcpy(void *dest, const void *src, size_t n);
 void			print_str(char *s, long size);
 long			set_int(char *dest, int param);
