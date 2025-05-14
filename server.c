@@ -70,8 +70,8 @@ t_data	*get_from_pid(t_data **data, int p_id)
 	return (*data);
 }
 
-/*保持していたデータをfreeする
-	
+/*
+	保持していたデータをfreeする
 */
 void	free_data(t_data **data)
 {
@@ -124,21 +124,23 @@ void	handler(int sig, siginfo_t *info, void *ucontext)
 		set_to_str(tmp);
 }
 
+/*
+	serverメイン
+*/
 int main(void)
 {
 	struct sigaction sa;
 
 	sa.sa_sigaction = handler;
 	sa.sa_flags = SA_SIGINFO;
-	sigemptyset(&sa.sa_mask);
-	if (sigaction(SIGUSR1, &sa, NULL) < 0)
-		return 1;
-	if (sigaction(SIGUSR2, &sa, NULL) < 0)
-		return 1;
-	if (sigaction(SIGINT, &sa, NULL) < 0)
-		return 1;
+	if (sigemptyset(&sa.sa_mask) < 0)
+		error("Failed in sigemptyset\n");
+	if (sigaction(SIGUSR1, &sa, NULL) < 0
+	|| sigaction(SIGUSR2, &sa, NULL) < 0
+	|| sigaction(SIGINT, &sa, NULL) < 0)
+		error("Failed in sigaction\n");
 	ft_printf("pid:%d\n", getpid());
 	while(1)
 		pause();
-	return 0;
+	return (0);
 }

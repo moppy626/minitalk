@@ -17,3 +17,5 @@ typedef struct s_data{
 	ssize_t	len;
 	struct s_data	*next;
 } t_data;
+
+void	error(char *msg);

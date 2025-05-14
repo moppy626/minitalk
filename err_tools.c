@@ -10,11 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minitalk.h"
+
 /*
 	エラーメッセージを出力して処理を終了する
 */
 void	error(char *msg)
 {
+	int	len;
 
-	ft_printf(2, msg, len);
-	exit (EXIT_FAILURE);
+	len = ft_strlen(msg);
+	write(2, "Error\n", 6);
+	write(2, msg, len);
+	exit(1);
+}

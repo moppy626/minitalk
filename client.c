@@ -32,17 +32,20 @@ void	to_binary(char c, int *ary)
 		idx++;
 	}
 }
+
 /*
 	バイナリを送信する
 */
-void	send_binary(int p_id, int *ary)
+void	send_char(int p_id, char c)
 {
 	int	idx;
+	int	ary[8];
 
+	to_binary(c, ary);
 	idx = 0;
 	while (idx < 8)
 	{
-		printf("%d",ary[idx]);
+		// printf("%d",ary[idx]);
 		if (ary[idx])
 			kill(p_id, SIGUSR1);
 		else
@@ -53,24 +56,21 @@ void	send_binary(int p_id, int *ary)
 	printf("\n");
 }
 
+/*
+	clientメイン
+*/
 int main(int argc, char const **argv)
 {
-	(void) argc;
-	int		ary[8];
 	int		p_id;
 	ssize_t	idx;
 
+	if (argc != 3)
+		error("The parameter must be two\n");
 	p_id = ft_atoi(argv[1]);
 	idx = 0;
 	while (argv[2][idx] != '\0')
-	{
-		// printf("argv[2][idx]:%c\n", argv[2][idx]);
-		to_binary(argv[2][idx], ary);
-		send_binary(p_id, ary); 
-		idx++;
-	}
-	to_binary(EOT, ary);
-	send_binary(p_id, ary); 
-	return 0;
+		send_char(p_id, argv[2][idx++]); 
+	send_char(p_id, EOT); 
+	return (0);
 }
 
