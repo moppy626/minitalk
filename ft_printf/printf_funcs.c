@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   printf_funcs.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmachida <mmachida@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 21:24:28 by user42            #+#    #+#             */
-/*   Updated: 2024/08/14 17:36:22 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/05/15 22:42:53 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,19 @@ long	set_int(char *dest, int param)
 			ft_memcpy(dest, "-2147483648", 11);
 		return (11);
 	}
-
 	if (param < 0)
 	{
 		if (dest != NULL)
+		{
 			dest[0] = '-';
-
-		return 1 + set_int(dest != NULL ? dest + 1 : NULL, -param);
+			return (1 + set_int(dest + 1, -param));
+		}
+		else
+			return (1 + set_int(NULL, -param));
 	}
 	else if (param >= 10)
 		idx = set_int(dest, param / 10);
-	else 
+	else
 		idx = 0;
 	if (dest != NULL)
 		dest[idx] = (param % 10) + '0';

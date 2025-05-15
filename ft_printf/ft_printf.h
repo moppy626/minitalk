@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 18:28:15 by mmachida          #+#    #+#             */
-/*   Updated: 2025/05/13 23:23:28 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/05/15 22:39:48 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include <stdint.h>
 # include <stdarg.h>
 # include "../libft/libft.h"
-
 
 void			*ft_memcpy(void *dest, const void *src, size_t n);
 void			print_str(char *s, long size);

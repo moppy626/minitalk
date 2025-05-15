@@ -13,31 +13,12 @@
 #include "minitalk.h"
 
 /*
-	2進数の8ビット配列をcharに変換します
-*/
-char to_char(int *ary)
-{
-	int ret;
-	int class;
-
-	ret = 0;
-	class = 128;
-	while(class >= 1)
-	{
-		if (*ary)
-			ret += class;
-		class /= 2;
-		ary++;
-	}
-	return (ret);
-}
-
-/*
 	新しいPID構造体を生成する
 */
 t_data	*new_data(int p_id)
 {
 	t_data	*new;
+	int		idx;
 
 	new = malloc(sizeof(t_data));
 	new->p_id = p_id;
@@ -45,8 +26,9 @@ t_data	*new_data(int p_id)
 	new->next = NULL;
 	new->str = NULL;
 	new->len = 0;
-	for (int i = 0; i < 8; i++)
-		new->ary[i] = 0;
+	idx = 0;
+	while (idx < 8)
+		new->ary[idx++] = 0;
 	return (new);
 }
 
@@ -87,31 +69,16 @@ void	free_data(t_data **data)
 	}
 	exit(0);
 }
-void	set_to_str(t_data	*tmp)
-{
-	char	c[2];
-
-	c[0] = to_char(tmp->ary);
-	c[1] = '\0';
-	if (c[0] == EOT)
-	{
-		ft_printf("%s\n", tmp->str);
-		return ;
-	}
-	tmp->len++;
-	tmp->str = ft_strjoin(tmp->str, c);
-	tmp->idx = 0;
-}
 
 /*
 	ハンドラ
 */
 void	handler(int sig, siginfo_t *info, void *ucontext)
 {
-	(void)ucontext;
-	static t_data *data;
-	t_data	*tmp;
+	static t_data	*data;
+	t_data			*tmp;
 
+	(void)ucontext;
 	if (sig == SIGINT)
 		free_data(&data);
 	tmp = get_from_pid(&data, info->si_pid);
@@ -127,20 +94,20 @@ void	handler(int sig, siginfo_t *info, void *ucontext)
 /*
 	serverメイン
 */
-int main(void)
+int	main(void)
 {
-	struct sigaction sa;
+	struct sigaction	sa;
 
 	sa.sa_sigaction = handler;
 	sa.sa_flags = SA_SIGINFO;
 	if (sigemptyset(&sa.sa_mask) < 0)
 		error("Failed in sigemptyset\n");
 	if (sigaction(SIGUSR1, &sa, NULL) < 0
-	|| sigaction(SIGUSR2, &sa, NULL) < 0
-	|| sigaction(SIGINT, &sa, NULL) < 0)
+		|| sigaction(SIGUSR2, &sa, NULL) < 0
+		|| sigaction(SIGINT, &sa, NULL) < 0)
 		error("Failed in sigaction\n");
 	ft_printf("pid:%d\n", getpid());
-	while(1)
+	while (1)
 		pause();
 	return (0);
 }

@@ -13,9 +13,9 @@
 CC = sudo cc -Wall -Wextra -Werror
 NAME_CLIENT = client
 NAME_SERVER = server
-SRC_CLIENT = client.c err_tools.c
-SRC_SERVER = server.c err_tools.c
-SRC_LIBFT = ft_atoi.c ft_memcpy.c ft_strlen.c ft_strjoin.c
+SRC_CLIENT = client.c tools.c
+SRC_SERVER = server.c tools.c
+SRC_LIBFT = ft_atoi.c ft_memcpy.c ft_strlen.c ft_strjoin.c ft_isdigit.c
 SRC_PRINTF = ft_printf.c printf_funcs.c str_funcs.c
 
 SRC_LIBFT := $(addprefix libft/, $(SRC_LIBFT))

@@ -18,7 +18,7 @@
 void	to_binary(char c, int *ary)
 {
 	int	idx;
-	unsigned msk;
+	int	msk;
 
 	msk = 0x80;
 	idx = 0;
@@ -45,7 +45,6 @@ void	send_char(int p_id, char c)
 	idx = 0;
 	while (idx < 8)
 	{
-		// printf("%d",ary[idx]);
 		if (ary[idx])
 			kill(p_id, SIGUSR1);
 		else
@@ -53,24 +52,24 @@ void	send_char(int p_id, char c)
 		idx++;
 		usleep(WAIT_TIME);
 	}
-	printf("\n");
 }
 
 /*
 	clientメイン
 */
-int main(int argc, char const **argv)
+int	main(int argc, char **argv)
 {
 	int		p_id;
 	ssize_t	idx;
 
 	if (argc != 3)
 		error("The parameter must be two\n");
+	if (!is_only_number(argv[1]))
+		error("PID must be number\n");
 	p_id = ft_atoi(argv[1]);
 	idx = 0;
 	while (argv[2][idx] != '\0')
-		send_char(p_id, argv[2][idx++]); 
-	send_char(p_id, EOT); 
+		send_char(p_id, argv[2][idx++]);
+	send_char(p_id, EOT);
 	return (0);
 }
-
