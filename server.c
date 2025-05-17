@@ -6,31 +6,11 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:25:01 by mmachida          #+#    #+#             */
-/*   Updated: 2025/04/22 20:25:01 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/05/17 23:01:08 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
-
-/*
-	新しいPID構造体を生成する
-*/
-t_data	*new_data(int p_id)
-{
-	t_data	*new;
-	int		idx;
-
-	new = malloc(sizeof(t_data));
-	new->p_id = p_id;
-	new->idx = 0;
-	new->next = NULL;
-	new->str = NULL;
-	new->len = 0;
-	idx = 0;
-	while (idx < 8)
-		new->ary[idx++] = 0;
-	return (new);
-}
 
 /*
 	PIDから対応するデータを取得する
@@ -50,24 +30,6 @@ t_data	*get_from_pid(t_data **data, int p_id)
 	tmp->next = *data;
 	*data = tmp;
 	return (*data);
-}
-
-/*
-	保持していたデータをfreeする
-*/
-void	free_data(t_data **data)
-{
-	t_data	*tmp;
-
-	tmp = *data;
-	while (tmp)
-	{
-		*data = (*data)->next;
-		free(tmp->str);
-		free(tmp);
-		tmp = *data;
-	}
-	exit(0);
 }
 
 /*

@@ -13,45 +13,17 @@
 #include "minitalk.h"
 
 /*
-	与えられたchar文字を2進数に変換する
+	パラメタが数字のみであることを確認する
 */
-void	to_binary(char c, int *ary)
+int	is_only_number(char *param)
 {
-	int	idx;
-	int	msk;
-
-	msk = 0x80;
-	idx = 0;
-	while (msk)
+	while (*param != '\0')
 	{
-		if (c & msk)
-			ary[idx] = 1;
-		else
-			ary[idx] = 0;
-		msk >>= 1;
-		idx++;
+		if (!ft_isdigit(*param))
+			return (0);
+		param++;
 	}
-}
-
-/*
-	バイナリを送信する
-*/
-void	send_char(int p_id, char c)
-{
-	int	idx;
-	int	ary[8];
-
-	to_binary(c, ary);
-	idx = 0;
-	while (idx < 8)
-	{
-		if (ary[idx])
-			kill(p_id, SIGUSR1);
-		else
-			kill(p_id, SIGUSR2);
-		idx++;
-		usleep(WAIT_TIME);
-	}
+	return (1);
 }
 
 /*

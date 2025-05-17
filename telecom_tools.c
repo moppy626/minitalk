@@ -26,20 +26,6 @@ void	error(char *msg)
 }
 
 /*
-	パラメタが数字のみであることを確認する
-*/
-int	is_only_number(char *param)
-{
-	while (*param != '\0')
-	{
-		if (!ft_isdigit(*param))
-			return (0);
-		param++;
-	}
-	return (1);
-}
-
-/*
 	2進数の8ビット配列をcharに変換します
 */
 char	to_char(int *ary)
@@ -60,20 +46,43 @@ char	to_char(int *ary)
 }
 
 /*
-	受け取ったバイトをchar*に変換して保持する
+	与えられたchar文字を2進数に変換する
 */
-void	set_to_str(t_data *tmp)
+void	to_binary(char c, int *ary)
 {
-	char	c[2];
+	int	idx;
+	int	msk;
 
-	c[0] = to_char(tmp->ary);
-	c[1] = '\0';
-	if (c[0] == EOT)
+	msk = 0x80;
+	idx = 0;
+	while (msk)
 	{
-		ft_printf("%s\n", tmp->str);
-		return ;
+		if (c & msk)
+			ary[idx] = 1;
+		else
+			ary[idx] = 0;
+		msk >>= 1;
+		idx++;
 	}
-	tmp->len++;
-	tmp->str = ft_strjoin(tmp->str, c);
-	tmp->idx = 0;
+}
+
+/*
+	バイナリを送信する
+*/
+void	send_char(int p_id, char c)
+{
+	int	idx;
+	int	ary[8];
+
+	to_binary(c, ary);
+	idx = 0;
+	while (idx < 8)
+	{
+		if (ary[idx])
+			kill(p_id, SIGUSR1);
+		else
+			kill(p_id, SIGUSR2);
+		idx++;
+		usleep(WAIT_TIME);
+	}
 }

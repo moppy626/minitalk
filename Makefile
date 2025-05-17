@@ -6,23 +6,27 @@
 #    By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/22 21:09:57 by mmachida          #+#    #+#              #
-#    Updated: 2025/04/22 21:09:57 by mmachida         ###   ########.fr        #
+#    Updated: 2025/05/17 17:14:43 by mmachida         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = sudo cc -Wall -Wextra -Werror
 NAME_CLIENT = client
 NAME_SERVER = server
-SRC_CLIENT = client.c tools.c
-SRC_SERVER = server.c tools.c
-SRC_LIBFT = ft_atoi.c ft_memcpy.c ft_strlen.c ft_strjoin.c ft_isdigit.c
+NAME_CLIENT_BONUS = client_bonus
+NAME_SERVER_BONUS = server_bonus
+SRC_CLIENT = client.c data_tools.c telecom_tools.c
+SRC_SERVER = server.c data_tools.c telecom_tools.c
+SRC_CLIENT_BONUS = client_bonus.c data_tools.c telecom_tools.c
+SRC_SERVER_BONUS = server_bonus.c data_tools.c telecom_tools.c
+SRC_LIBFT = libft/libft.a
 SRC_PRINTF = ft_printf.c printf_funcs.c str_funcs.c
-
-SRC_LIBFT := $(addprefix libft/, $(SRC_LIBFT))
 SRC_PRINTF := $(addprefix ft_printf/, $(SRC_PRINTF))
 
-OBJS_CLIENT = $(SRC_PRINTF:.c=.o) $(SRC_LIBFT:.c=.o) $(SRC_CLIENT:.c=.o)
-OBJS_SERVER = $(SRC_PRINTF:.c=.o) $(SRC_LIBFT:.c=.o) $(SRC_SERVER:.c=.o)
+OBJS_CLIENT = $(SRC_PRINTF:.c=.o) $(SRC_CLIENT:.c=.o) $(SRC_LIBFT)
+OBJS_SERVER = $(SRC_PRINTF:.c=.o) $(SRC_SERVER:.c=.o) $(SRC_LIBFT)
+OBJS_CLIENT_BONUS = $(SRC_PRINTF:.c=.o) $(SRC_CLIENT_BONUS:.c=.o) $(SRC_LIBFT)
+OBJS_SERVER_BONUS = $(SRC_PRINTF:.c=.o) $(SRC_SERVER_BONUS:.c=.o) $(SRC_LIBFT)
 
 all: $(NAME_CLIENT) $(NAME_SERVER)
 
@@ -32,11 +36,25 @@ $(NAME_CLIENT):$(OBJS_CLIENT)
 $(NAME_SERVER):$(OBJS_SERVER)
 	@$(CC) $(OBJS_SERVER) -o $(NAME_SERVER)
 
+bonus: $(NAME_CLIENT_BONUS) $(NAME_SERVER_BONUS)
+
+$(NAME_CLIENT_BONUS):$(OBJS_CLIENT_BONUS)
+	@$(CC) $(OBJS_CLIENT_BONUS) -o $(NAME_CLIENT_BONUS)
+
+$(NAME_SERVER_BONUS):$(OBJS_SERVER_BONUS)
+	@$(CC) $(OBJS_SERVER_BONUS) -o $(NAME_SERVER_BONUS)
+
+$(SRC_LIBFT):
+	make -C libft
+
 clean:
-	rm -f $(OBJS_CLIENT) $(OBJS_SERVER)
+	make -C libft clean
+	rm -f $(OBJS_CLIENT) $(OBJS_SERVER) $(OBJS_CLIENT_BONUS) $(OBJS_SERVER_BONUS)
 
 fclean:
-	rm -f $(NAME_CLIENT) $(OBJS_CLIENT) $(NAME_SERVER) $(OBJS_SERVER)
+	make -C libft fclean
+	rm -f $(NAME_CLIENT) $(OBJS_CLIENT) $(NAME_SERVER) $(OBJS_SERVER) $(NAME_CLIENT_BONUS) $(OBJS_CLIENT_BONUS) $(NAME_SERVER_BONUS) $(OBJS_SERVER_BONUS)
 
 re: fclean all
 
+.PHONEY: bonus all clean fclean re
