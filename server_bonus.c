@@ -1,16 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   server_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:25:01 by mmachida          #+#    #+#             */
-/*   Updated: 2025/05/18 23:48:13 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/05/18 23:48:46 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
+
+/*
+	受信した値を送り返す
+*/
+void	send_recv_val(t_data *tmp)
+{
+	ssize_t			idx;
+
+	idx = 0;
+	while (tmp->str[idx])
+		send_char(tmp->p_id, tmp->str[idx++]);
+	send_char(tmp->p_id, EOT);
+}
 
 /*
 	ハンドラ
@@ -33,7 +46,10 @@ void	handler(int sig, siginfo_t *info, void *ucontext)
 		tmp->ary[tmp->idx] = 0;
 	tmp->idx++;
 	if (tmp->idx >= 8 && set_to_str(tmp))
+	{
+		send_recv_val(tmp);
 		free_data(&tmp);
+	}
 }
 
 /*

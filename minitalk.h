@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 22:26:50 by mmachida          #+#    #+#             */
-/*   Updated: 2025/05/17 23:05:28 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/05/18 22:55:11 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@
 # include "ft_printf/ft_printf.h"
 # include "libft/libft.h"
 
+# include <stdio.h>
+
 # define EOT		0x04
-# define WAIT_TIME	5000
+# define WAIT_TIME	10000
 
 typedef struct s_data
 {
@@ -30,7 +32,7 @@ typedef struct s_data
 	ssize_t			len;
 	struct s_data	*next;
 }	t_data;
-void	set_to_str(t_data *tmp);
+int		set_to_str(t_data *tmp);
 t_data	*new_data(int p_id);
 void	free_data(t_data **data);
 void	error(char *msg);

@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:05:54 by mmachida          #+#    #+#             */
-/*   Updated: 2025/05/17 23:11:01 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/05/18 22:54:45 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,24 @@
 /*
 	受け取ったバイトをchar*に変換して保持する
 */
-void	set_to_str(t_data *tmp)
+int	set_to_str(t_data *tmp)
 {
 	char	c[2];
 
 	c[0] = to_char(tmp->ary);
 	c[1] = '\0';
+	printf("%c", c[0]);
 	tmp->idx = 0;
 	if (c[0] == EOT)
 	{
+		printf("\n");
 		ft_printf("%s\n", tmp->str);
 		tmp->len = 0;
-		free(tmp->str);
-		tmp->str = NULL;
-		return ;
+		return (1);
 	}
 	tmp->len++;
 	tmp->str = ft_strjoin(tmp->str, c);
+	return (0);
 }
 
 /*
