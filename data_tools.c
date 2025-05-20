@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:05:54 by mmachida          #+#    #+#             */
-/*   Updated: 2025/05/18 22:54:45 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/05/20 22:59:19 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,11 @@ int	set_to_str(t_data *tmp)
 		tmp->len = 0;
 		return (1);
 	}
+	if (c[0] == NAK)
+	{
+		error("Another client is sending\n");
+		free_data(&tmp);
+	}
 	tmp->len++;
 	tmp->str = ft_strjoin(tmp->str, c);
 	return (0);
@@ -46,7 +51,6 @@ t_data	*new_data(int p_id)
 	new = malloc(sizeof(t_data));
 	new->p_id = p_id;
 	new->idx = 0;
-	new->next = NULL;
 	new->str = NULL;
 	new->len = 0;
 	idx = 0;
@@ -58,19 +62,11 @@ t_data	*new_data(int p_id)
 /*
 	保持していたデータをfreeする
 */
-void	free_data(t_data **data)
+void	free_data(t_data **tmp)
 {
-	t_data	*tmp;
-
-	if (!*data)
-		exit(0);
-	tmp = *data;
-	while (tmp)
-	{
-		*data = (*data)->next;
-		free(tmp->str);
-		free(tmp);
-		tmp = *data;
-	}
-	exit(0);
+	if (!*tmp)
+		return ;
+	free((*tmp)->str);
+	free(*tmp);
+	*tmp = NULL;
 }

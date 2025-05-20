@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:24:39 by mmachida          #+#    #+#             */
-/*   Updated: 2025/05/18 22:55:27 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/05/20 22:38:02 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	handler(int sig, siginfo_t *info, void *ucontext)
 	{
 		check_retval(tmp);
 		free_data(&tmp);
+		exit(0);
 	}
 }
 

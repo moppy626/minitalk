@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 22:26:50 by mmachida          #+#    #+#             */
-/*   Updated: 2025/05/18 22:55:11 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/05/20 22:52:41 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <stdio.h>
 
 # define EOT		0x04
+# define NAK		0x15
 # define WAIT_TIME	10000
 
 typedef struct s_data
@@ -30,7 +31,6 @@ typedef struct s_data
 	ssize_t			idx;
 	char			*str;
 	ssize_t			len;
-	struct s_data	*next;
 }	t_data;
 int		set_to_str(t_data *tmp);
 t_data	*new_data(int p_id);
