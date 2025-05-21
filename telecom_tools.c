@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 16:46:49 by mmachida          #+#    #+#             */
-/*   Updated: 2025/05/20 22:36:03 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/05/21 21:57:03 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,12 @@
 /*
 	エラーメッセージを出力して処理を終了する
 */
-void	error(char *msg)
+void	error(char *msg, t_data **data)
 {
 	int	len;
 
+	if (*data)
+		free_data(data);
 	len = ft_strlen(msg);
 	write(2, "Error\n", 6);
 	write(2, msg, len);
@@ -62,10 +64,10 @@ void	to_binary(char c, int *ary)
 		else
 			ary[idx] = 0;
 		msk >>= 1;
-		printf("%d", ary[idx]);
+		// printf("%d", ary[idx]);
 		idx++;
 	}
-	printf("\n");
+	// printf("\n");
 }
 
 /*
@@ -76,7 +78,7 @@ void	send_char(int p_id, char c)
 	int	idx;
 	int	ary[8];
 
-	printf("send:%c/", c);
+	// printf("send:%c/", c);
 	to_binary(c, ary);
 	idx = 0;
 	while (idx < 8)

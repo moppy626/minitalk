@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:24:39 by mmachida          #+#    #+#             */
-/*   Updated: 2025/04/22 20:24:39 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/05/21 21:45:15 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ int	main(int argc, char **argv)
 	ssize_t	idx;
 
 	if (argc != 3)
-		error("The parameter must be two\n");
+		error("The parameter must be two\n", NULL);
 	if (!is_only_number(argv[1]))
-		error("PID must be number\n");
+		error("PID must be number\n", NULL);
 	p_id = ft_atoi(argv[1]);
 	idx = 0;
 	while (argv[2][idx] != '\0')

@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:24:39 by mmachida          #+#    #+#             */
-/*   Updated: 2025/05/20 22:38:02 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/05/21 21:31:56 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,15 @@ int	is_only_number(char *param)
 /*
 	戻り値を検証する
 */
-void	check_retval(t_data	*tmp)
+void	check_retval(t_data	**tmp)
 {
 	ssize_t			idx;
 
 	idx = 0;
-	while (idx < tmp->len)
+	while (idx < (*tmp)->len)
 	{
-		if (tmp->str[idx] != g_str[idx])
-			error("Sent and received values are different\n");
+		if ((*tmp)->str[idx] != g_str[idx])
+			error("Failed to send\n", tmp);
 		idx++;
 	}
 }
@@ -53,10 +53,7 @@ void	handler(int sig, siginfo_t *info, void *ucontext)
 
 	(void)ucontext;
 	if (sig == SIGINT)
-	{
 		free_data(&tmp);
-		exit (0);
-	}
 	if (!tmp)
 		tmp = new_data(info->si_pid);
 	if (sig == SIGUSR1)
@@ -66,9 +63,8 @@ void	handler(int sig, siginfo_t *info, void *ucontext)
 	tmp->idx++;
 	if (tmp->idx >= 8 && set_to_str(tmp))
 	{
-		check_retval(tmp);
+		check_retval(&tmp);
 		free_data(&tmp);
-		exit(0);
 	}
 }
 
@@ -82,19 +78,19 @@ int	main(int argc, char **argv)
 	struct sigaction	sa;
 
 	if (argc != 3)
-		error("The parameter must be two\n");
+		error("The parameter must be two\n", NULL);
 	if (!is_only_number(argv[1]))
-		error("PID must be number\n");
+		error("PID must be number\n", NULL);
 	p_id = ft_atoi(argv[1]);
 	sa.sa_sigaction = handler;
 	sa.sa_flags = SA_SIGINFO;
 	g_str = argv[2];
 	if (sigemptyset(&sa.sa_mask) < 0)
-		error("Failed in sigemptyset\n");
+		error("Failed in sigemptyset\n", NULL);
 	if (sigaction(SIGUSR1, &sa, NULL) < 0
 		|| sigaction(SIGUSR2, &sa, NULL) < 0
 		|| sigaction(SIGINT, &sa, NULL) < 0)
-		error("Failed in sigaction\n");
+		error("Failed in sigaction\n", NULL);
 	idx = 0;
 	while (argv[2][idx] != '\0')
 		send_char(p_id, argv[2][idx++]);
