@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:05:54 by mmachida          #+#    #+#             */
-/*   Updated: 2025/05/21 21:55:35 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/05/21 23:56:14 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,15 @@ int	set_to_str(t_data *tmp)
 
 	c[0] = to_char(tmp->ary);
 	c[1] = '\0';
-	// printf("%c", c[0]);
+	printf("\n[set_to_str]%c,pid:%d\n", c[0], tmp->p_id);
 	tmp->idx = 0;
+	if (c[0] == NAK)
+	{
+		printf("NAK recieved\n");
+		error("Server is transmitting\n", &tmp);
+	}
 	if (c[0] == EOT)
 	{
-		// printf("\n");
 		ft_printf("%s\n", tmp->str);
 		tmp->recieved = 1;
 		return (1);
@@ -47,6 +51,7 @@ t_data	*new_data(int p_id)
 	new->p_id = p_id;
 	new->idx = 0;
 	new->recieved = 0;
+	new->returned = 0;
 	new->next = NULL;
 	new->str = NULL;
 	new->len = 0;

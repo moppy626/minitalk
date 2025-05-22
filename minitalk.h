@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 22:26:50 by mmachida          #+#    #+#             */
-/*   Updated: 2025/05/21 21:33:04 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/05/21 23:52:32 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,14 @@
 # include <stdio.h>
 
 # define EOT		0x04
+# define NAK		0x15
 # define WAIT_TIME	10000
 
 typedef struct s_data
 {
 	int				p_id;
 	int				recieved;
+	int				returned;
 	int				ary[8];
 	ssize_t			idx;
 	char			*str;

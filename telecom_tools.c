@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 16:46:49 by mmachida          #+#    #+#             */
-/*   Updated: 2025/05/21 21:57:03 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/05/21 22:28:55 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,10 @@ void	to_binary(char c, int *ary)
 		else
 			ary[idx] = 0;
 		msk >>= 1;
-		// printf("%d", ary[idx]);
+		printf("%d", ary[idx]);
 		idx++;
 	}
-	// printf("\n");
+	printf("\n");
 }
 
 /*
@@ -78,7 +78,7 @@ void	send_char(int p_id, char c)
 	int	idx;
 	int	ary[8];
 
-	// printf("send:%c/", c);
+	printf("send:%c/", c);
 	to_binary(c, ary);
 	idx = 0;
 	while (idx < 8)

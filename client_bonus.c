@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:24:39 by mmachida          #+#    #+#             */
-/*   Updated: 2025/05/21 21:31:56 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/05/21 23:36:43 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,15 @@ void	handler(int sig, siginfo_t *info, void *ucontext)
 	if (!tmp)
 		tmp = new_data(info->si_pid);
 	if (sig == SIGUSR1)
+	{
+		printf("1");
 		tmp->ary[tmp->idx] = 1;
+	}
 	else if (sig == SIGUSR2)
+	{
+		printf("0");
 		tmp->ary[tmp->idx] = 0;
+	}
 	tmp->idx++;
 	if (tmp->idx >= 8 && set_to_str(tmp))
 	{
