@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 16:46:49 by mmachida          #+#    #+#             */
-/*   Updated: 2025/05/20 22:36:03 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/05/21 22:28:55 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,12 @@
 /*
 	エラーメッセージを出力して処理を終了する
 */
-void	error(char *msg)
+void	error(char *msg, t_data **data)
 {
 	int	len;
 
+	if (*data)
+		free_data(data);
 	len = ft_strlen(msg);
 	write(2, "Error\n", 6);
 	write(2, msg, len);

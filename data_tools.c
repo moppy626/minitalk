@@ -21,13 +21,17 @@ int	set_to_str(t_data *tmp)
 
 	c[0] = to_char(tmp->ary);
 	c[1] = '\0';
-	printf("%c", c[0]);
+	printf("\n[set_to_str]%c,pid:%d\n", c[0], tmp->p_id);
 	tmp->idx = 0;
+	if (c[0] == NAK)
+	{
+		printf("NAK recieved\n");
+		error("Server is transmitting\n", &tmp);
+	}
 	if (c[0] == EOT)
 	{
-		printf("\n");
 		ft_printf("%s\n", tmp->str);
-		tmp->len = 0;
+		tmp->recieved = 1;
 		return (1);
 	}
 	else if (c[0] == NAK)
@@ -51,6 +55,9 @@ t_data	*new_data(int p_id)
 	new = malloc(sizeof(t_data));
 	new->p_id = p_id;
 	new->idx = 0;
+	new->recieved = 0;
+	new->returned = 0;
+	new->next = NULL;
 	new->str = NULL;
 	new->len = 0;
 	idx = 0;
@@ -62,11 +69,19 @@ t_data	*new_data(int p_id)
 /*
 	保持していたデータをfreeする
 */
-void	free_data(t_data **tmp)
+void	free_data(t_data **data)
 {
-	if (!*tmp)
-		return ;
-	free((*tmp)->str);
-	free(*tmp);
-	*tmp = NULL;
+	t_data	*tmp;
+
+	if (!*data)
+		exit(0);
+	tmp = *data;
+	while (tmp)
+	{
+		*data = (*data)->next;
+		free(tmp->str);
+		free(tmp);
+		tmp = *data;
+	}
+	exit(0);
 }
