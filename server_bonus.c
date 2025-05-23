@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:25:01 by mmachida          #+#    #+#             */
-/*   Updated: 2025/05/20 23:10:44 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/05/23 22:27:50 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	handler(int sig, siginfo_t *info, void *ucontext)
 		tmp = new_data(info->si_pid);
 	else if (tmp->p_id != info->si_pid)
 	{
+		send_char(tmp->p_id, NAK);
 		free_data(&tmp);
 		error("Duplex reception is not supported\n");
 	}

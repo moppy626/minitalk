@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:05:54 by mmachida          #+#    #+#             */
-/*   Updated: 2025/05/20 22:59:19 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/05/23 22:29:52 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	set_to_str(t_data *tmp)
 		tmp->len = 0;
 		return (1);
 	}
-	if (c[0] == NAK)
+	else if (c[0] == NAK)
 	{
 		error("Another client is sending\n");
 		free_data(&tmp);
