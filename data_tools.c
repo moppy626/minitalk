@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:05:54 by mmachida          #+#    #+#             */
-/*   Updated: 2025/05/21 23:56:14 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/05/23 22:29:52 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,11 @@ int	set_to_str(t_data *tmp)
 		ft_printf("%s\n", tmp->str);
 		tmp->recieved = 1;
 		return (1);
+	}
+	else if (c[0] == NAK)
+	{
+		error("Another client is sending\n");
+		free_data(&tmp);
 	}
 	tmp->len++;
 	tmp->str = ft_strjoin(tmp->str, c);

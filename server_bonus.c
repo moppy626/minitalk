@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:25:01 by mmachida          #+#    #+#             */
-/*   Updated: 2025/05/21 23:49:42 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/05/23 22:27:50 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,18 @@ void	handler(int sig, siginfo_t *info, void *ucontext)
 
 	(void)ucontext;
 	if (sig == SIGINT)
-		free_data(&data);
-	if (sending)
-		send_char(info->si_pid, NAK);
-	tmp = get_from_pid(&data, info->si_pid);
+	{
+		free_data(&tmp);
+		exit (0);
+	}
+	if (!tmp)
+		tmp = new_data(info->si_pid);
+	else if (tmp->p_id != info->si_pid)
+	{
+		send_char(tmp->p_id, NAK);
+		free_data(&tmp);
+		error("Duplex reception is not supported\n");
+	}
 	if (sig == SIGUSR1)
 	{
 		printf("1");
