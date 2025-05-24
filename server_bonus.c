@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:25:01 by mmachida          #+#    #+#             */
-/*   Updated: 2025/05/23 22:27:50 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/05/24 22:27:51 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,61 +33,11 @@ t_data	*get_from_pid(t_data **data, int p_id)
 }
 
 /*
-	受信した値を送り返す
-*/
-void	send_recv_val(t_data **data)
-{
-	t_data	*tmp;
-	ssize_t	idx;
-
-	tmp = *data;
-	while (tmp)
-	{
-		printf("[send_recv_val]str:%s,returned:%d\n",tmp->str,tmp->returned);
-		if (!tmp->returned)
-		{
-			idx = 0;
-			while (tmp->str[idx])
-				send_char(tmp->p_id, tmp->str[idx++]);
-			send_char(tmp->p_id, EOT);
-			tmp->returned = 1;
-		}
-		tmp = tmp->next;
-	}
-}
-
-/*
-	すべてのプロセスを受け取り済みか確認
-*/
-int	is_all_recieved(t_data	*data)
-{
-	t_data	*tmp;
-	int		cnt;
-
-	cnt = 0;
-	tmp = data;
-	while (tmp)
-	{
-		cnt++;
-		if (!tmp->recieved)
-		{
-			printf("[is_all_recieved]not recieved%d\n", cnt);
-			return (0);
-		}
-		tmp = tmp->next;
-	}
-	printf("[is_all_recieved]recieved%d\n", cnt);
-	return (1);
-}
-
-/*
 	ハンドラ
 */
 void	handler(int sig, siginfo_t *info, void *ucontext)
 {
-	static t_data	*data = NULL;
-	static int		sending = 0;
-	t_data			*tmp;
+	static t_data	*tmp = NULL;
 
 	(void)ucontext;
 	if (sig == SIGINT)
@@ -99,28 +49,30 @@ void	handler(int sig, siginfo_t *info, void *ucontext)
 		tmp = new_data(info->si_pid);
 	else if (tmp->p_id != info->si_pid)
 	{
-		send_char(tmp->p_id, NAK);
-		free_data(&tmp);
-		error("Duplex reception is not supported\n");
+		kill(info->si_pid, SIGUSR2);
+		return ;
 	}
 	if (sig == SIGUSR1)
 	{
-		printf("1");
+		ft_printf("1");
 		tmp->ary[tmp->idx] = 1;
 	}
 	else if (sig == SIGUSR2)
 	{
-		printf("0");
+		ft_printf("0");
 		tmp->ary[tmp->idx] = 0;
 	}
 	tmp->idx++;
 	if (tmp->idx >= 8)
-		if (set_to_str(tmp) && is_all_recieved(data))
+	{
+		ft_printf("\n");
+		if (set_to_str(tmp))
 		{
-			sending = 1;
-			send_recv_val(&data);
-			sending = 0;
+			ft_printf(tmp->str);
+			kill(tmp->p_id, SIGUSR1);
+			free_data(&tmp);
 		}
+	}
 }
 
 /*

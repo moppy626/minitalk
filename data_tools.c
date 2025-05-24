@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:05:54 by mmachida          #+#    #+#             */
-/*   Updated: 2025/05/23 22:29:52 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/05/24 21:49:37 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,11 @@ int	set_to_str(t_data *tmp)
 	c[1] = '\0';
 	printf("\n[set_to_str]%c,pid:%d\n", c[0], tmp->p_id);
 	tmp->idx = 0;
-	if (c[0] == NAK)
-	{
-		printf("NAK recieved\n");
-		error("Server is transmitting\n", &tmp);
-	}
 	if (c[0] == EOT)
 	{
 		ft_printf("%s\n", tmp->str);
 		tmp->recieved = 1;
 		return (1);
-	}
-	else if (c[0] == NAK)
-	{
-		error("Another client is sending\n");
-		free_data(&tmp);
 	}
 	tmp->len++;
 	tmp->str = ft_strjoin(tmp->str, c);
@@ -74,7 +64,7 @@ void	free_data(t_data **data)
 	t_data	*tmp;
 
 	if (!*data)
-		exit(0);
+		return ;
 	tmp = *data;
 	while (tmp)
 	{
@@ -83,5 +73,4 @@ void	free_data(t_data **data)
 		free(tmp);
 		tmp = *data;
 	}
-	exit(0);
 }
