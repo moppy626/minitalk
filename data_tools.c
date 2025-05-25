@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:05:54 by mmachida          #+#    #+#             */
-/*   Updated: 2025/05/24 21:49:37 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/05/25 14:28:42 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	set_to_str(t_data *tmp)
 	tmp->idx = 0;
 	if (c[0] == EOT)
 	{
-		ft_printf("%s\n", tmp->str);
 		tmp->recieved = 1;
 		return (1);
 	}

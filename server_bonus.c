@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:25:01 by mmachida          #+#    #+#             */
-/*   Updated: 2025/05/24 22:27:51 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/05/25 17:03:28 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ void	handler(int sig, siginfo_t *info, void *ucontext)
 		ft_printf("\n");
 		if (set_to_str(tmp))
 		{
-			ft_printf(tmp->str);
+			write(1, tmp->str, tmp->len);
+			write(1, "\n", 1);
 			kill(tmp->p_id, SIGUSR1);
 			free_data(&tmp);
 		}

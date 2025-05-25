@@ -6,11 +6,35 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:24:39 by mmachida          #+#    #+#             */
-/*   Updated: 2025/05/24 21:41:56 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/05/25 21:11:21 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
+
+static int		g_errflg = 0;
+
+/*
+	ハンドラ
+*/
+void	handler(int sig, siginfo_t *info, void *ucontext)
+{
+	(void)info;
+	(void)ucontext;
+
+	if (sig == SIGINT)
+		exit(0);
+	if (sig == SIGUSR1)
+	{
+		printf("1");
+		exit(0);
+	}
+	else if (sig == SIGUSR2)
+	{
+		printf("0");
+		g_errflg = 1;
+	}
+}
 
 /*
 	パラメタが数字のみであることを確認する
@@ -24,25 +48,6 @@ int	is_only_number(char *param)
 		param++;
 	}
 	return (1);
-}
-
-/*
-	ハンドラ
-*/
-void	handler(int sig, siginfo_t *info, void *ucontext)
-{
-	(void)info;
-	(void)ucontext;
-	if (sig == SIGUSR1)
-	{
-		printf("1");
-		exit(0);
-	}
-	else if (sig == SIGUSR2)
-	{
-		printf("0");
-		error("Failed to send\n", NULL);
-	}
 }
 
 /*
@@ -69,7 +74,12 @@ int	main(int argc, char **argv)
 		error("Failed in sigaction\n", NULL);
 	idx = 0;
 	while (argv[2][idx] != '\0')
+	{
 		send_char(p_id, argv[2][idx++]);
+		// printf("g_errflt:%d\n", g_errflg);
+	}
 	send_char(p_id, EOT);
+	while(1)
+		pause();
 	return (0);
 }
