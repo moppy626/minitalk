@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 22:26:50 by mmachida          #+#    #+#             */
-/*   Updated: 2025/05/25 21:11:41 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/05/26 22:23:51 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ typedef struct s_data
 {
 	int				p_id;
 	int				recieved;
-	int				returned;
 	int				ary[8];
 	ssize_t			idx;
 	char			*str;
@@ -41,5 +40,6 @@ void	error(char *msg, t_data **data);
 char	to_char(int *ary);
 void	to_binary(char c, int *ary);
 void	send_char(int p_id, char c);
+void	set_handler(void (*handler)(int, siginfo_t *, void *));
 
 #endif

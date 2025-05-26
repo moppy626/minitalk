@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:05:54 by mmachida          #+#    #+#             */
-/*   Updated: 2025/05/25 14:28:42 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/05/26 22:41:48 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,16 +60,20 @@ t_data	*new_data(int p_id)
 */
 void	free_data(t_data **data)
 {
-	t_data	*tmp;
+	// t_data	*tmp;
 
 	if (!*data)
 		return ;
-	tmp = *data;
-	while (tmp)
-	{
-		*data = (*data)->next;
-		free(tmp->str);
-		free(tmp);
-		tmp = *data;
-	}
+	// tmp = *data;
+	// while (tmp)
+	// {
+		// *data = (*data)->next;
+		(*data)->p_id = 0;
+		(*data)->recieved = 0;
+		(*data)->idx = 0;
+		free((*data)->str);
+		(*data)->len = 0;
+		free(*data);
+	// 	tmp = *data;
+	// }
 }

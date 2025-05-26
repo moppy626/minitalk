@@ -6,11 +6,13 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:25:01 by mmachida          #+#    #+#             */
-/*   Updated: 2025/05/25 17:03:28 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/05/26 22:54:54 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
+
+static t_data	*g_data = NULL;
 
 /*
 	PIDから対応するデータを取得する
@@ -37,17 +39,16 @@ t_data	*get_from_pid(t_data **data, int p_id)
 */
 void	handler(int sig, siginfo_t *info, void *ucontext)
 {
-	static t_data	*tmp = NULL;
 
 	(void)ucontext;
 	if (sig == SIGINT)
 	{
-		free_data(&tmp);
+		free_data(&g_data);
 		exit (0);
 	}
-	if (!tmp)
-		tmp = new_data(info->si_pid);
-	else if (tmp->p_id != info->si_pid)
+	if (!g_data)
+		g_data = new_data(info->si_pid);
+	else if (g_data->p_id != info->si_pid)
 	{
 		kill(info->si_pid, SIGUSR2);
 		return ;
@@ -55,23 +56,23 @@ void	handler(int sig, siginfo_t *info, void *ucontext)
 	if (sig == SIGUSR1)
 	{
 		ft_printf("1");
-		tmp->ary[tmp->idx] = 1;
+		g_data->ary[g_data->idx] = 1;
 	}
 	else if (sig == SIGUSR2)
 	{
 		ft_printf("0");
-		tmp->ary[tmp->idx] = 0;
+		g_data->ary[g_data->idx] = 0;
 	}
-	tmp->idx++;
-	if (tmp->idx >= 8)
+	g_data->idx++;
+	if (g_data->idx >= 8)
 	{
 		ft_printf("\n");
-		if (set_to_str(tmp))
+		if (set_to_str(g_data))
 		{
-			write(1, tmp->str, tmp->len);
+			write(1, g_data->str, g_data->len);
 			write(1, "\n", 1);
-			kill(tmp->p_id, SIGUSR1);
-			free_data(&tmp);
+			kill(g_data->p_id, SIGUSR1);
+			free_data(&g_data);
 		}
 	}
 }
@@ -81,18 +82,22 @@ void	handler(int sig, siginfo_t *info, void *ucontext)
 */
 int	main(void)
 {
-	struct sigaction	sa;
+	t_data	*temp;
 
-	sa.sa_sigaction = handler;
-	sa.sa_flags = SA_SIGINFO;
-	if (sigemptyset(&sa.sa_mask) < 0)
-		error("Failed in sigemptyset\n", NULL);
-	if (sigaction(SIGUSR1, &sa, NULL) < 0
-		|| sigaction(SIGUSR2, &sa, NULL) < 0
-		|| sigaction(SIGINT, &sa, NULL) < 0)
-		error("Failed in sigaction\n", NULL);
+	set_handler(handler);
 	ft_printf("pid:%d\n", getpid());
 	while (1)
-		pause();
+	{
+		while (!g_data->p_id)
+			pause();
+		kill(g_data->p_id, SIGUSR1);
+		while (!g_data->recieved)
+			pause();
+		// ft_printf(g_data->str);
+		kill(g_data->p_id, SIGUSR2);
+		temp = g_data->next;
+		free_data(&g_data);
+		g_data = temp;
+	}
 	return (0);
 }

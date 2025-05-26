@@ -6,13 +6,13 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:24:39 by mmachida          #+#    #+#             */
-/*   Updated: 2025/05/25 21:11:21 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/05/26 22:10:19 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-static int		g_errflg = 0;
+static int		g_sendflg = 0;
 
 /*
 	ハンドラ
@@ -26,13 +26,13 @@ void	handler(int sig, siginfo_t *info, void *ucontext)
 		exit(0);
 	if (sig == SIGUSR1)
 	{
-		printf("1");
-		exit(0);
+		printf("1\n");
+		g_sendflg = 1;
 	}
 	else if (sig == SIGUSR2)
 	{
-		printf("0");
-		g_errflg = 1;
+		printf("2\n");
+		exit(0);
 	}
 }
 
@@ -57,21 +57,17 @@ int	main(int argc, char **argv)
 {
 	int					p_id;
 	ssize_t				idx;
-	struct sigaction	sa;
 
+	printf("pid:%d\n", getpid());
 	if (argc != 3)
 		error("The parameter must be two\n", NULL);
 	if (!is_only_number(argv[1]))
 		error("PID must be number\n", NULL);
 	p_id = ft_atoi(argv[1]);
-	sa.sa_sigaction = handler;
-	sa.sa_flags = SA_SIGINFO;
-	if (sigemptyset(&sa.sa_mask) < 0)
-		error("Failed in sigemptyset\n", NULL);
-	if (sigaction(SIGUSR1, &sa, NULL) < 0
-		|| sigaction(SIGUSR2, &sa, NULL) < 0
-		|| sigaction(SIGINT, &sa, NULL) < 0)
-		error("Failed in sigaction\n", NULL);
+	set_handler(handler);
+	kill(p_id, SIGUSR1);
+	while (!g_sendflg)
+		pause();
 	idx = 0;
 	while (argv[2][idx] != '\0')
 	{

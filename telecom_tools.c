@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 16:46:49 by mmachida          #+#    #+#             */
-/*   Updated: 2025/05/25 21:11:32 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/05/26 22:02:57 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,23 @@ void	error(char *msg, t_data **data)
 	write(2, "Error\n", 6);
 	write(2, msg, len);
 	exit (1);
+}
+
+/*
+	ハンドラを設定する
+*/
+void	set_handler(void (*handler)(int, siginfo_t *, void *))
+{
+	struct sigaction	sa;
+
+	sa.sa_sigaction = handler;
+	sa.sa_flags = SA_SIGINFO;
+	if (sigemptyset(&sa.sa_mask) < 0)
+		error("Failed in sigemptyset\n", NULL);
+	if (sigaction(SIGUSR1, &sa, NULL) < 0
+		|| sigaction(SIGUSR2, &sa, NULL) < 0
+		|| sigaction(SIGINT, &sa, NULL) < 0)
+		error("Failed in sigaction\n", NULL);
 }
 
 /*
