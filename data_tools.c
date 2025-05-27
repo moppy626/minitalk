@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:05:54 by mmachida          #+#    #+#             */
-/*   Updated: 2025/05/26 22:41:48 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/05/27 21:40:06 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,7 @@ t_data	*new_data(int p_id)
 	new = malloc(sizeof(t_data));
 	new->p_id = p_id;
 	new->idx = 0;
-	new->recieved = 0;
-	new->returned = 0;
+	new->recieved = 0;	
 	new->next = NULL;
 	new->str = NULL;
 	new->len = 0;
