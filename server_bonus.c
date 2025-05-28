@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:25:01 by mmachida          #+#    #+#             */
-/*   Updated: 2025/05/27 22:30:04 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/05/28 23:09:54 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 static t_data	*g_data = NULL;
 
 /*
-	PIDから対応するデータを取得する
+	PIDを検索し、なければ末尾に追加する
 */
-t_data	*get_from_pid(t_data **data, int p_id)
+void	set_pid(t_data **data, int p_id)
 {
 	t_data	*tmp;
 
@@ -25,13 +25,10 @@ t_data	*get_from_pid(t_data **data, int p_id)
 	while (tmp)
 	{
 		if (tmp->p_id == p_id)
-			return (tmp);
+			return ;
 		tmp = tmp->next;
 	}
 	tmp = new_data(p_id);
-	tmp->next = *data;
-	*data = tmp;
-	return (*data);
 }
 
 /*
@@ -39,20 +36,23 @@ t_data	*get_from_pid(t_data **data, int p_id)
 */
 void	handler(int sig, siginfo_t *info, void *ucontext)
 {
-
 	(void)ucontext;
+
 
 	if (sig == SIGINT)
 	{
-		free_data(&g_data);
+		free_list(&g_data);
 		exit (0);
 	}
-	if (!g_data && sig == SIGUSR1)
+	if (!g_data)
 	{
 		g_data = new_data(info->si_pid);
 		return ;
 	}
-	if (g_data->p_id == info->si_pid)
+	printf("[handler]g_data->p_id:%d\n",g_data->p_id);
+	if (g_data->p_id != info->si_pid)
+		set_pid(&g_data, info->si_pid);
+	else
 	{
 		if (sig == SIGUSR1)
 		{
@@ -69,18 +69,9 @@ void	handler(int sig, siginfo_t *info, void *ucontext)
 		{
 			ft_printf("\n");
 			if (set_to_str(g_data))
-			{
-				ft_printf("%s\n", g_data->str);
-				kill(g_data->p_id, SIGUSR1);
-			}
+				g_data->recieved = 1;
 		}
 	}
-	else
-	{
-
-
-	}
-
 }
 
 /*
@@ -101,7 +92,7 @@ int	main(void)
 		while (!g_data->recieved)
 			pause();
 		printf("recieved\n");
-		// ft_printf(g_data->str);
+		ft_printf(g_data->str);
 		kill(g_data->p_id, SIGUSR2);
 		temp = g_data->next;
 		free_data(&g_data);

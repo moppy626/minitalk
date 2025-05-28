@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 22:26:50 by mmachida          #+#    #+#             */
-/*   Updated: 2025/05/27 21:38:55 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/05/28 23:19:12 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <stdio.h>
 
 # define EOT		0x04
-# define WAIT_TIME	100000
+# define WAIT_TIME	1000000
 
 typedef struct s_data
 {
@@ -35,6 +35,7 @@ typedef struct s_data
 }	t_data;
 int		set_to_str(t_data *tmp);
 t_data	*new_data(int p_id);
+void	free_list(t_data **data);
 void	free_data(t_data **data);
 void	error(char *msg, t_data **data);
 char	to_char(int *ary);

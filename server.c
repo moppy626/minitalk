@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:25:01 by mmachida          #+#    #+#             */
-/*   Updated: 2025/05/21 21:59:14 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/05/28 23:10:28 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	handler(int sig, siginfo_t *info, void *ucontext)
 
 	(void)ucontext;
 	if (sig == SIGINT)
-		free_data(&data);
+		free_list(&data);
 	tmp = get_from_pid(&data, info->si_pid);
 	if (sig == SIGUSR1)
 		tmp->ary[tmp->idx] = 1;

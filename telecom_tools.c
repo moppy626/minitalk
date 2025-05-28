@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 16:46:49 by mmachida          #+#    #+#             */
-/*   Updated: 2025/05/26 22:02:57 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/05/28 23:18:51 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	error(char *msg, t_data **data)
 {
 	int	len;
 
-	if (*data)
-		free_data(data);
+	if (data && *data)
+		free_list(data);
 	len = ft_strlen(msg);
 	write(2, "Error\n", 6);
 	write(2, msg, len);
