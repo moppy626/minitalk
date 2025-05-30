@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:24:39 by mmachida          #+#    #+#             */
-/*   Updated: 2025/05/28 23:21:32 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/05/29 17:18:47 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ void	handler(int sig, siginfo_t *info, void *ucontext)
 	if (sig == SIGUSR1)
 	{
 		g_sendflg = 1;
-		printf("1\n");
+		// printf("1\n");
 	}
 	else if (sig == SIGUSR2)
 	{
-		printf("2\n");
+		// printf("2\n");
 		exit(0);
 	}
 }
@@ -68,8 +68,7 @@ int	main(int argc, char **argv)
 	kill(p_id, SIGUSR1);
 	while (!g_sendflg)
 	{
-		printf("g_sendflg pause\n");
-		pause();
+		usleep(WAIT_TIME);
 	}
 	idx = 0;
 	while (argv[2][idx] != '\0')
@@ -80,6 +79,6 @@ int	main(int argc, char **argv)
 	send_char(p_id, EOT);
 	g_sendflg = 0;
 	while(1)
-		pause();
+		usleep(WAIT_TIME);
 	return (0);
 }

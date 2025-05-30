@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:25:01 by mmachida          #+#    #+#             */
-/*   Updated: 2025/05/28 23:10:28 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/05/29 16:29:10 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,6 @@ int	main(void)
 		error("Failed in sigaction\n", NULL);
 	ft_printf("pid:%d\n", getpid());
 	while (1)
-		pause();
+		usleep(WAIT_TIME);
 	return (0);
 }

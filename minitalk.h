@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 22:26:50 by mmachida          #+#    #+#             */
-/*   Updated: 2025/05/28 23:19:12 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/05/29 17:34:34 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <stdio.h>
 
 # define EOT		0x04
-# define WAIT_TIME	1000000
+# define WAIT_TIME	500
 
 typedef struct s_data
 {

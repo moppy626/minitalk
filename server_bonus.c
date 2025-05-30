@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:25:01 by mmachida          #+#    #+#             */
-/*   Updated: 2025/05/28 23:09:54 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/05/29 17:37:16 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,16 @@ void	set_pid(t_data **data, int p_id)
 	t_data	*tmp;
 
 	tmp = *data;
-	while (tmp)
+	while (tmp->next)
 	{
 		if (tmp->p_id == p_id)
 			return ;
 		tmp = tmp->next;
 	}
-	tmp = new_data(p_id);
+	if (tmp->p_id == p_id)
+		return ;
+	tmp->next = new_data(p_id);
+	// printf("set_pid:%d\n",p_id);
 }
 
 /*
@@ -49,7 +52,7 @@ void	handler(int sig, siginfo_t *info, void *ucontext)
 		g_data = new_data(info->si_pid);
 		return ;
 	}
-	printf("[handler]g_data->p_id:%d\n",g_data->p_id);
+	// printf("[handler]g_data->p_id:%d\n",g_data->p_id);
 	if (g_data->p_id != info->si_pid)
 		set_pid(&g_data, info->si_pid);
 	else
@@ -86,17 +89,19 @@ int	main(void)
 	while (1)
 	{
 		while (!g_data)
-			pause();
+			usleep(WAIT_TIME);
 		kill(g_data->p_id, SIGUSR1);
-		printf("send SIGUSR1 to %d\n", g_data->p_id);
+		// printf("send SIGUSR1 to %d\n", g_data->p_id);
 		while (!g_data->recieved)
-			pause();
-		printf("recieved\n");
-		ft_printf(g_data->str);
+			usleep(WAIT_TIME);
+		// printf("recieved\n");
+		ft_printf("%s\n", g_data->str);
 		kill(g_data->p_id, SIGUSR2);
+		// printf("send SIGUSR2 to %d\n", g_data->p_id);
 		temp = g_data->next;
 		free_data(&g_data);
 		g_data = temp;
+		// printf("g_data->p_id:%d\n",g_data->p_id);
 	}
 	return (0);
 }
