@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:05:54 by mmachida          #+#    #+#             */
-/*   Updated: 2025/05/29 17:36:40 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/05/31 23:17:56 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 /*
 	受け取ったバイトをchar*に変換して保持する
 */
-int	set_to_str(t_data *tmp)
+int	set_to_str(t_pidlist *tmp)
 {
 	char	c[2];
 
 	c[0] = to_char(tmp->ary);
 	c[1] = '\0';
-	printf("\n[set_to_str]%c,pid:%d\n", c[0], tmp->p_id);
+	// printf("\n[set_to_str]%c,pid:%d\n", c[0], tmp->p_id);
 	tmp->idx = 0;
 	if (c[0] == EOT)
 	{
@@ -36,12 +36,12 @@ int	set_to_str(t_data *tmp)
 /*
 	新しいPID構造体を生成する
 */
-t_data	*new_data(int p_id)
+t_pidlist	*new_list(int p_id)
 {
-	t_data	*new;
+	t_pidlist	*new;
 	int		idx;
 
-	new = malloc(sizeof(t_data));
+	new = malloc(sizeof(t_pidlist));
 	new->p_id = p_id;
 	new->idx = 0;
 	new->recieved = 0;	
@@ -56,9 +56,9 @@ t_data	*new_data(int p_id)
 /*
 	保持していたリストをfreeする
 */
-void	free_list(t_data **data)
+void	free_list(t_pidlist **data)
 {
-	t_data	*tmp;
+	t_pidlist	*tmp;
 
 	if (!*data)
 		return ;
@@ -74,12 +74,13 @@ void	free_list(t_data **data)
 		free(tmp);
 		tmp = *data;
 	}
+	exit(0);
 }
 
 /*
 	データをfreeする
 */
-void	free_data(t_data **data)
+void	free_data(t_pidlist **data)
 {
 	if (!*data)
 		return ;

@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 16:46:49 by mmachida          #+#    #+#             */
-/*   Updated: 2025/05/29 17:20:11 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/05/31 23:18:08 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
 	エラーメッセージを出力して処理を終了する
 */
-void	error(char *msg, t_data **data)
+void	error(char *msg, t_pidlist **data)
 {
 	int	len;
 
