@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 16:46:49 by mmachida          #+#    #+#             */
-/*   Updated: 2025/05/31 23:18:08 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/06/01 16:55:34 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,30 +81,6 @@ void	to_binary(char c, int *ary)
 		else
 			ary[idx] = 0;
 		msk >>= 1;
-		// printf("%d", ary[idx]);
 		idx++;
-	}
-	// printf("\n");
-}
-
-/*
-	バイナリを送信する
-*/
-void	send_char(int p_id, char c)
-{
-	int	idx;
-	int	ary[8];
-
-	// printf("send:%c/", c);
-	to_binary(c, ary);
-	idx = 0;
-	while (idx < 8)
-	{
-		if (ary[idx])
-			kill(p_id, SIGUSR1);
-		else
-			kill(p_id, SIGUSR2);
-		idx++;
-		usleep(WAIT_TIME);
 	}
 }

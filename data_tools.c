@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:05:54 by mmachida          #+#    #+#             */
-/*   Updated: 2025/05/31 23:17:56 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/06/01 16:48:40 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	set_to_str(t_pidlist *tmp)
 
 	c[0] = to_char(tmp->ary);
 	c[1] = '\0';
-	// printf("\n[set_to_str]%c,pid:%d\n", c[0], tmp->p_id);
+	printf("\n[set_to_str]%c,pid:%d\n", c[0], tmp->p_id);
 	tmp->idx = 0;
 	if (c[0] == EOT)
 	{

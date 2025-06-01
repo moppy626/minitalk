@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 22:26:50 by mmachida          #+#    #+#             */
-/*   Updated: 2025/05/31 23:19:07 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/06/01 22:58:50 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void		free_data(t_pidlist **data);
 void		error(char *msg, t_pidlist **data);
 char		to_char(int *ary);
 void		to_binary(char c, int *ary);
-void		send_char(int p_id, char c);
 void		set_handler(void (*handler)(int, siginfo_t *, void *));
 
 #endif
