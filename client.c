@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:24:39 by mmachida          #+#    #+#             */
-/*   Updated: 2025/06/01 23:14:11 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/06/03 23:21:07 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,33 +46,36 @@ void	handler(int sig, siginfo_t *info, void *ucontext)
 void	send_char(int p_id, char c)
 {
 	int	idx;
+	int ret;
+	int send;
 	int	ary[8];
 
-	// printf("send:%c/", c);
+	// ft_printf("send:%c/", c); //test
 	to_binary(c, ary);
 	idx = 0;
 	while (idx < 8)
 	{
-		pause();
-		if (g_data.signal_flag == SIGUSR1
-			&& g_data.last_pid == p_id)
+		if (ary[idx])
 		{
-			usleep(WAIT_TIME);
-			if (ary[idx])
-			{
-				printf("1");
-				kill(p_id, SIGUSR1);
-			}
-			else
-			{
-				printf("0");
-				kill(p_id, SIGUSR2);
-			}
-			idx++;
-			g_data.signal_flag = 0;
+			ft_printf("1"); //test
+			send = SIGUSR1;
 		}
+		else
+		{
+			ft_printf("0"); //test
+			send = SIGUSR2;
+		}
+		kill(p_id, send);
+		idx++;
+		g_data.signal_flag = 0;
+		ret = usleep(WAIT_TIME);
+		// ft_printf("ret:%d\n", ret);//test
+		if(ret == 0 || g_data.signal_flag != send)
+			error("Failed to send\n", NULL);
+		// usleep(BLANK_MOMENT);
+
 	}
-	printf("\n");
+	ft_printf("\n"); //test
 }
 
 /*
@@ -91,10 +94,11 @@ int	main(int argc, char **argv)
 	p_id = ft_atoi(argv[1]);
 	idx = 0;
 	kill(p_id, SIGUSR1);
+	pause();
 	while (argv[2][idx] != '\0')
 	{
 		send_char(p_id, argv[2][idx++]);
-		printf("client roop\n");
+		// printf("client roop\n");
 	}
 	send_char(p_id, EOT);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 22:26:50 by mmachida          #+#    #+#             */
-/*   Updated: 2025/06/01 22:58:50 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/06/03 23:21:42 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,13 @@
 # include <stdio.h>
 
 # define EOT		0x04
-# define WAIT_TIME	1000
+# define WAIT_TIME	10000
+# define BLANK_MOMENT	1000
 
 typedef struct s_pidlist
 {
 	int					p_id;
+	int					receiving;
 	int					recieved;
 	int					ary[8];
 	ssize_t				idx;

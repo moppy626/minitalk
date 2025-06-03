@@ -6,30 +6,43 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:05:54 by mmachida          #+#    #+#             */
-/*   Updated: 2025/06/01 16:48:40 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/06/03 23:12:53 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
+void test_print(int ary[8])
+{
+	int idx = 0;
+	ft_printf(" tmp->ary:");
+	while(idx < 8)
+	{
+		ft_printf("%d", ary[idx]);
+		idx++;
+	}
+	ft_printf(" ");
+}
 /*
 	受け取ったバイトをchar*に変換して保持する
 */
 int	set_to_str(t_pidlist *tmp)
 {
-	char	c[2];
+	char	c;
 
-	c[0] = to_char(tmp->ary);
-	c[1] = '\0';
-	printf("\n[set_to_str]%c,pid:%d\n", c[0], tmp->p_id);
+	c = to_char(tmp->ary);
+	// ft_printf("\n[set_to_str]%c,pid:%d\n", c[0], tmp->p_id); //test
 	tmp->idx = 0;
-	if (c[0] == EOT)
+	if (c == EOT)
 	{
 		tmp->recieved = 1;
+		ft_printf("\n");
 		return (1);
 	}
 	tmp->len++;
-	tmp->str = ft_strjoin(tmp->str, c);
+	ft_printf("%c", c);
+	ft_printf("\n");//test
+	// tmp->str = ft_strjoin(tmp->str, c);
 	return (0);
 }
 
@@ -74,7 +87,6 @@ void	free_list(t_pidlist **data)
 		free(tmp);
 		tmp = *data;
 	}
-	exit(0);
 }
 
 /*

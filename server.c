@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:25:01 by mmachida          #+#    #+#             */
-/*   Updated: 2025/06/01 23:12:58 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/06/03 23:18:05 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,11 @@ void	handler(int sig, siginfo_t *info, void *ucontext)
 {
 	(void)ucontext;
 	if (sig == SIGINT)
+	{
+		ft_printf("\n");
 		free_list(&g_data.pidlist);
+		exit (0);
+	}
 	g_data.signal_flag = sig;
 	g_data.last_pid = info->si_pid;
 }
@@ -52,34 +56,42 @@ void	handler(int sig, siginfo_t *info, void *ucontext)
 int	main(void)
 {
 	t_pidlist	*tmp;
+	int			ret;
 
 	set_handler(handler);
 	ft_printf("pid:%d\n", getpid());
 	while (1)
 	{
-		pause();
-		printf("server roop\n");
-		tmp = get_from_pid(&g_data.pidlist, g_data.last_pid);
-		if (tmp)
+		ret = usleep(WAIT_TIME);
+		printf("ret:%d\n", ret);
+		if (g_data.last_pid)
 		{
-			if (g_data.signal_flag == SIGUSR1)
+			tmp = get_from_pid(&g_data.pidlist, g_data.last_pid);
+			if (tmp)
 			{
-				printf("1");
-				tmp->ary[tmp->idx] = 1;
+				if (ret == 0)
+					kill(g_data.last_pid, g_data.signal_flag);
+				if (g_data.signal_flag == SIGUSR1)
+				{
+					// ft_printf("1"); //test
+					tmp->ary[tmp->idx] = 1;
+				}
+				else if (g_data.signal_flag == SIGUSR2)
+				{
+					// ft_printf("0"); //test
+					tmp->ary[tmp->idx] = 0;
+				}
+				tmp->idx++;
+				if (tmp->idx >= 8 && set_to_str(tmp))
+				{
+					// ft_printf("%s\n", tmp->str); //test
+					free_data(&g_data.pidlist);
+				}
+				
 			}
-			else if (g_data.signal_flag == SIGUSR2)
-			{
-				printf("0");
-				tmp->ary[tmp->idx] = 0;
-			}
-			tmp->idx++;
-			if (tmp->idx >= 8 && set_to_str(tmp))
-			{
-				ft_printf("%s\n", tmp->str);
-				// free_data(tmp, &g_data);
-			}
+			kill(g_data.last_pid, g_data.signal_flag);
+			g_data.last_pid = 0;
 		}
-		kill(g_data.last_pid, SIGUSR1);
 	}
 	return (0);
 }
