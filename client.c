@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:24:39 by mmachida          #+#    #+#             */
-/*   Updated: 2025/06/03 23:21:07 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/06/04 19:26:06 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,12 @@ void	send_char(int p_id, char c)
 	{
 		if (ary[idx])
 		{
-			ft_printf("1"); //test
+			// ft_printf("1"); //test
 			send = SIGUSR1;
 		}
 		else
 		{
-			ft_printf("0"); //test
+			// ft_printf("0"); //test
 			send = SIGUSR2;
 		}
 		kill(p_id, send);
@@ -70,12 +70,15 @@ void	send_char(int p_id, char c)
 		g_data.signal_flag = 0;
 		ret = usleep(WAIT_TIME);
 		// ft_printf("ret:%d\n", ret);//test
-		if(ret == 0 || g_data.signal_flag != send)
+		if(ret == 0)
+			idx--;
+		else if (g_data.signal_flag != send)
 			error("Failed to send\n", NULL);
-		// usleep(BLANK_MOMENT);
+		usleep(BLANK_MOMENT);
 
 	}
-	ft_printf("\n"); //test
+	usleep(OUTPUT_TIME);
+	// ft_printf("\n"); //test
 }
 
 /*

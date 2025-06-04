@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:25:01 by mmachida          #+#    #+#             */
-/*   Updated: 2025/06/03 23:18:05 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/06/04 22:43:19 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void	handler(int sig, siginfo_t *info, void *ucontext)
 	(void)ucontext;
 	if (sig == SIGINT)
 	{
-		ft_printf("\n");
 		free_list(&g_data.pidlist);
 		exit (0);
 	}
@@ -63,14 +62,14 @@ int	main(void)
 	while (1)
 	{
 		ret = usleep(WAIT_TIME);
-		printf("ret:%d\n", ret);
+		// printf("ret:%d\n", ret);
 		if (g_data.last_pid)
 		{
 			tmp = get_from_pid(&g_data.pidlist, g_data.last_pid);
 			if (tmp)
 			{
 				if (ret == 0)
-					kill(g_data.last_pid, g_data.signal_flag);
+					error("Client has not replied\n", &g_data.pidlist);
 				if (g_data.signal_flag == SIGUSR1)
 				{
 					// ft_printf("1"); //test
@@ -85,10 +84,11 @@ int	main(void)
 				if (tmp->idx >= 8 && set_to_str(tmp))
 				{
 					// ft_printf("%s\n", tmp->str); //test
-					free_data(&g_data.pidlist);
+					g_data.pidlist = free_data(&g_data.pidlist);
 				}
 				
 			}
+			usleep(BLANK_MOMENT);
 			kill(g_data.last_pid, g_data.signal_flag);
 			g_data.last_pid = 0;
 		}

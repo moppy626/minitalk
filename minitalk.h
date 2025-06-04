@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 22:26:50 by mmachida          #+#    #+#             */
-/*   Updated: 2025/06/03 23:21:42 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/06/04 22:55:27 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@
 # include <stdio.h>
 
 # define EOT		0x04
-# define WAIT_TIME	10000
-# define BLANK_MOMENT	1000
+# define WAIT_TIME	100000
+# define BLANK_MOMENT	100
+# define OUTPUT_TIME	1000
 
 typedef struct s_pidlist
 {
@@ -45,7 +46,7 @@ typedef struct s_data
 int			set_to_str(t_pidlist *tmp);
 t_pidlist	*new_list(int p_id);
 void		free_list(t_pidlist **data);
-void		free_data(t_pidlist **data);
+t_pidlist	*free_data(t_pidlist **data);
 void		error(char *msg, t_pidlist **data);
 char		to_char(int *ary);
 void		to_binary(char c, int *ary);

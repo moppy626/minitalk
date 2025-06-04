@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:05:54 by mmachida          #+#    #+#             */
-/*   Updated: 2025/06/03 23:12:53 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/06/04 22:55:49 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void test_print(int ary[8])
 	ft_printf(" ");
 }
 /*
-	受け取ったバイトをchar*に変換して保持する
+	受け取ったバイトをchar*に変換して出力する
 */
 int	set_to_str(t_pidlist *tmp)
 {
@@ -41,7 +41,7 @@ int	set_to_str(t_pidlist *tmp)
 	}
 	tmp->len++;
 	ft_printf("%c", c);
-	ft_printf("\n");//test
+	// ft_printf("\n");//test
 	// tmp->str = ft_strjoin(tmp->str, c);
 	return (0);
 }
@@ -77,29 +77,21 @@ void	free_list(t_pidlist **data)
 		return ;
 	tmp = *data;
 	while (tmp)
-	{
-		*data = (*data)->next;
-		tmp->p_id = 0;
-		tmp->recieved = 0;
-		tmp->idx = 0;
-		free(tmp->str);
-		tmp->len = 0;
-		free(tmp);
-		tmp = *data;
-	}
+		tmp = free_data(&tmp);
 }
 
 /*
 	データをfreeする
 */
-void	free_data(t_pidlist **data)
+t_pidlist	*free_data(t_pidlist **data)
 {
+	t_pidlist	*tmp;
+
 	if (!*data)
-		return ;
-	(*data)->p_id = 0;
-	(*data)->recieved = 0;
-	(*data)->idx = 0;
+		return (NULL);
+	tmp = (*data)->next;
 	free((*data)->str);
-	(*data)->len = 0;
 	free(*data);
+
+	return (tmp);
 }
