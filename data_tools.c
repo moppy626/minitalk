@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:05:54 by mmachida          #+#    #+#             */
-/*   Updated: 2025/06/04 22:55:49 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/06/06 00:03:19 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void test_print(int ary[8])
 /*
 	受け取ったバイトをchar*に変換して出力する
 */
-int	set_to_str(t_pidlist *tmp)
+int	print_char(t_pidlist *tmp)
 {
 	char	c;
 
@@ -59,7 +59,7 @@ t_pidlist	*new_list(int p_id)
 	new->idx = 0;
 	new->recieved = 0;	
 	new->next = NULL;
-	new->str = NULL;
+	// new->str = NULL;
 	new->len = 0;
 	idx = 0;
 	while (idx < 8)
@@ -85,13 +85,17 @@ void	free_list(t_pidlist **data)
 */
 t_pidlist	*free_data(t_pidlist **data)
 {
-	t_pidlist	*tmp;
+	t_pidlist	*next;
 
-	if (!*data)
+	if (!data || !*data)
 		return (NULL);
-	tmp = (*data)->next;
-	free((*data)->str);
-	free(*data);
 
-	return (tmp);
+	next = (*data)->next;
+
+	// if ((*data)->str)
+	// 	free((*data)->str);
+	free(*data);
+	*data = NULL;
+
+	return next;
 }

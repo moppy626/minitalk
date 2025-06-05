@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:24:39 by mmachida          #+#    #+#             */
-/*   Updated: 2025/06/04 19:26:06 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/06/06 00:10:35 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	send_char(int p_id, char c)
 	int send;
 	int	ary[8];
 
-	// ft_printf("send:%c/", c); //test
+	ft_printf("send:%c/", c); //test
 	to_binary(c, ary);
 	idx = 0;
 	while (idx < 8)
