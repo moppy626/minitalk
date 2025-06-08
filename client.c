@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:24:39 by mmachida          #+#    #+#             */
-/*   Updated: 2025/06/06 00:10:35 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/06/08 00:21:57 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,12 @@ void	send_char(int p_id, char c)
 	{
 		if (ary[idx])
 		{
-			// ft_printf("1"); //test
+			ft_printf("1"); //test
 			send = SIGUSR1;
 		}
 		else
 		{
-			// ft_printf("0"); //test
+			ft_printf("0"); //test
 			send = SIGUSR2;
 		}
 		kill(p_id, send);
@@ -78,7 +78,7 @@ void	send_char(int p_id, char c)
 
 	}
 	usleep(OUTPUT_TIME);
-	// ft_printf("\n"); //test
+	ft_printf("\n"); //test
 }
 
 /*
@@ -93,6 +93,7 @@ int	main(int argc, char **argv)
 		error("The parameter must be two\n", NULL);
 	if (!is_only_number(argv[1]))
 		error("PID must be number\n", NULL);
+	printf("pid:%d\n", getpid()); //test
 	set_handler(handler);
 	p_id = ft_atoi(argv[1]);
 	idx = 0;
@@ -101,7 +102,6 @@ int	main(int argc, char **argv)
 	while (argv[2][idx] != '\0')
 	{
 		send_char(p_id, argv[2][idx++]);
-		// printf("client roop\n");
 	}
 	send_char(p_id, EOT);
 	return (0);

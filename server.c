@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:25:01 by mmachida          #+#    #+#             */
-/*   Updated: 2025/06/06 00:11:11 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/06/08 10:45:19 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,10 @@ int	main(void)
 		ret = usleep(WAIT_TIME);
 		// usleep(WAIT_TIME);
 		// printf("ret:%d\n", ret);
-		// if (g_data.pidlist)
-		// 	printf("g_data.last_pid:%d,g_data.pidlist->p_id:%d\n",g_data.last_pid,g_data.pidlist->p_id);
-		// else
-		// 	printf("g_data.last_pid:%d\n",g_data.last_pid);
+		if (g_data.pidlist)
+			printf("g_data.last_pid:%d,g_data.pidlist->p_id:%d\n",g_data.last_pid,g_data.pidlist->p_id);
+		else
+			printf("g_data.last_pid:%d\n",g_data.last_pid);
 		if (g_data.last_pid)
 		{
 			if (g_data.pidlist && g_data.pidlist->p_id == g_data.last_pid)
@@ -97,6 +97,8 @@ int	main(void)
 					// // ft_printf("%s\n", g_data.pidlist->str); //test
 					kill(g_data.last_pid, g_data.signal_flag);
 					g_data.pidlist = free_data(&g_data.pidlist);
+					if (g_data.pidlist)
+						kill(g_data.last_pid, g_data.signal_flag);
 				}
 				
 			}
@@ -105,7 +107,7 @@ int	main(void)
 			if (g_data.pidlist && g_data.pidlist->p_id == g_data.last_pid)
 			{
 				usleep(BLANK_MOMENT);
-				// printf("send:%d\n", g_data.signal_flag);
+				printf("send:%d\n", g_data.signal_flag);
 				kill(g_data.last_pid, g_data.signal_flag);
 			}
 			g_data.last_pid = 0;
