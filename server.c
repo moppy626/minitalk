@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:25:01 by mmachida          #+#    #+#             */
-/*   Updated: 2025/06/08 15:11:32 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/06/08 18:03:46 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ void	recieve_data(t_data *data)
 		data->p_id = data->last_pid;
 	else if (data->p_id == data->last_pid)
 	{
-		// if (ret == 0)
-		// 	clear_data(data);
 		if (data->signal_flag == SIGUSR1)
 			data->ary[data->idx] = 1;
 		else if (data->signal_flag == SIGUSR2)
@@ -62,8 +60,8 @@ int	main(void)
 	int		ret;
 
 	set_handler(handler);
-	ft_printf("pid:%d\n", getpid());
 	clear_data(&g_data);
+	ft_printf("pid:%d\n", getpid());
 
 	while (1)
 	{

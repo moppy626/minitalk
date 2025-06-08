@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:05:54 by mmachida          #+#    #+#             */
-/*   Updated: 2025/06/08 14:37:46 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/06/08 17:58:10 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,9 @@ int	print_char(t_data *tmp)
 	tmp->idx = 0;
 	if (c == EOT)
 	{
-		tmp->recieved = 1;
 		ft_printf("\n");
 		return (1);
 	}
-	tmp->len++;
 	ft_printf("%c", c);
 	return (0);
 }
@@ -41,8 +39,6 @@ void	clear_data(t_data *data)
 
 	data->p_id = 0;
 	data->idx = 0;
-	data->recieved = 0;
-	data->len = 0;
 	idx = 0;
 	while (idx < 8)
 		data->ary[idx++] = 0;

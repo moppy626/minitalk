@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:24:39 by mmachida          #+#    #+#             */
-/*   Updated: 2025/06/08 15:04:56 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/06/08 18:08:08 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	handler(int sig, siginfo_t *info, void *ucontext)
 /*
 	バイナリを送信する
 */
-void	send_char(int p_id, char c)
+void	send_char(pid_t p_id, char c)
 {
 	int	idx;
 	int	send;
@@ -74,8 +74,8 @@ void	send_char(int p_id, char c)
 */
 int	main(int argc, char **argv)
 {
-	int		p_id;
-	ssize_t	idx;
+	pid_t	p_id;
+	size_t	idx;
 
 	if (argc != 3)
 		error("The parameter must be two\n");
@@ -83,6 +83,8 @@ int	main(int argc, char **argv)
 		error("PID must be number\n");
 	set_handler(handler);
 	p_id = ft_atoi(argv[1]);
+	if (p_id < 1)
+		error("PID must be greater than 0\n");
 	idx = 0;
 	kill(p_id, SIGUSR1);
 	if (usleep(WAIT_TIME) == 0)

@@ -6,7 +6,7 @@
 /*   By: mmachida <mmachida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 22:26:50 by mmachida          #+#    #+#             */
-/*   Updated: 2025/06/08 14:38:58 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/06/08 18:07:58 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,9 @@ typedef struct s_data
 {
 	volatile sig_atomic_t	signal_flag;
 	volatile sig_atomic_t	last_pid;
-	int						p_id;
-	int						receiving;
-	int						recieved;
+	pid_t					p_id;
 	int						ary[8];
-	ssize_t					idx;
-	ssize_t					len;
+	size_t					idx;
 }	t_data;
 int			print_char(t_data *tmp);
 void		clear_data(t_data *list);
