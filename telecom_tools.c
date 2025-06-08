@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   telecom_tools.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: mmachida <mmachida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 16:46:49 by mmachida          #+#    #+#             */
-/*   Updated: 2025/06/01 16:55:34 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/06/08 13:50:08 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,10 @@
 /*
 	エラーメッセージを出力して処理を終了する
 */
-void	error(char *msg, t_pidlist **data)
+void	error(char *msg)
 {
 	int	len;
 
-	if (data && *data)
-		free_list(data);
 	len = ft_strlen(msg);
 	write(2, "Error\n", 6);
 	write(2, msg, len);
@@ -37,11 +35,11 @@ void	set_handler(void (*handler)(int, siginfo_t *, void *))
 	sa.sa_sigaction = handler;
 	sa.sa_flags = SA_SIGINFO;
 	if (sigemptyset(&sa.sa_mask) < 0)
-		error("Failed in sigemptyset\n", NULL);
+		error("Failed in sigemptyset\n");
 	if (sigaction(SIGUSR1, &sa, NULL) < 0
 		|| sigaction(SIGUSR2, &sa, NULL) < 0
 		|| sigaction(SIGINT, &sa, NULL) < 0)
-		error("Failed in sigaction\n", NULL);
+		error("Failed in sigaction\n");
 }
 
 /*

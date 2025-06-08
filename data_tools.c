@@ -3,35 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   data_tools.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: mmachida <mmachida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:05:54 by mmachida          #+#    #+#             */
-/*   Updated: 2025/06/06 00:03:19 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/06/08 14:37:46 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-void test_print(int ary[8])
-{
-	int idx = 0;
-	ft_printf(" tmp->ary:");
-	while(idx < 8)
-	{
-		ft_printf("%d", ary[idx]);
-		idx++;
-	}
-	ft_printf(" ");
-}
 /*
 	受け取ったバイトをchar*に変換して出力する
 */
-int	print_char(t_pidlist *tmp)
+int	print_char(t_data *tmp)
 {
 	char	c;
 
 	c = to_char(tmp->ary);
-	// ft_printf("\n[set_to_str]%c,pid:%d\n", c[0], tmp->p_id); //test
 	tmp->idx = 0;
 	if (c == EOT)
 	{
@@ -41,61 +29,21 @@ int	print_char(t_pidlist *tmp)
 	}
 	tmp->len++;
 	ft_printf("%c", c);
-	// ft_printf("\n");//test
-	// tmp->str = ft_strjoin(tmp->str, c);
 	return (0);
 }
 
 /*
-	新しいPID構造体を生成する
+	PID構造体を初期化する
 */
-t_pidlist	*new_list(int p_id)
+void	clear_data(t_data *data)
 {
-	t_pidlist	*new;
 	int		idx;
 
-	new = malloc(sizeof(t_pidlist));
-	new->p_id = p_id;
-	new->idx = 0;
-	new->recieved = 0;	
-	new->next = NULL;
-	// new->str = NULL;
-	new->len = 0;
+	data->p_id = 0;
+	data->idx = 0;
+	data->recieved = 0;
+	data->len = 0;
 	idx = 0;
 	while (idx < 8)
-		new->ary[idx++] = 0;
-	return (new);
-}
-/*
-	保持していたリストをfreeする
-*/
-void	free_list(t_pidlist **data)
-{
-	t_pidlist	*tmp;
-
-	if (!*data)
-		return ;
-	tmp = *data;
-	while (tmp)
-		tmp = free_data(&tmp);
-}
-
-/*
-	データをfreeする
-*/
-t_pidlist	*free_data(t_pidlist **data)
-{
-	t_pidlist	*next;
-
-	if (!data || !*data)
-		return (NULL);
-
-	next = (*data)->next;
-
-	// if ((*data)->str)
-	// 	free((*data)->str);
-	free(*data);
-	*data = NULL;
-
-	return next;
+		data->ary[idx++] = 0;
 }

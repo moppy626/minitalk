@@ -3,14 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+         #
+#    By: mmachida <mmachida@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/22 21:09:57 by mmachida          #+#    #+#              #
-#    Updated: 2025/05/17 17:14:43 by mmachida         ###   ########.fr        #
+#    Updated: 2025/06/08 12:24:11 by mmachida         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC = sudo cc -Wall -Wextra -Werror
+CC = cc -Wall -Wextra -Werror
 NAME_CLIENT = client
 NAME_SERVER = server
 NAME_CLIENT_BONUS = client_bonus
