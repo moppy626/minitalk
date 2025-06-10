@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmachida <mmachida@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmachida <mmachida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:25:01 by mmachida          #+#    #+#             */
-/*   Updated: 2025/06/08 18:03:46 by mmachida         ###   ########.fr       */
+/*   Updated: 2025/06/08 21:03:52 by mmachida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ int	main(void)
 	set_handler(handler);
 	clear_data(&g_data);
 	ft_printf("pid:%d\n", getpid());
-
 	while (1)
 	{
 		ret = usleep(WAIT_TIME * 10);
